@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内容工作台 · 何意味</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部导航 -->
+  <header class="topnav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-icon">✦</span>
+        <span class="brand-name">内容工作台</span>
+      </div>
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="ideas">
+          <i data-lucide="sparkles"></i>
+          <span>选题灵感</span>
+        </button>
+        <button class="tab-btn" data-tab="calendar">
+          <i data-lucide="calendar-days"></i>
+          <span>内容日历</span>
+        </button>
+        <button class="tab-btn" data-tab="competitor">
+          <i data-lucide="library"></i>
+          <span>竞品素材</span>
+        </button>
+        <button class="tab-btn" data-tab="profile">
+          <i data-lucide="user"></i>
+          <span>个人名片</span>
+        </button>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-ghost btn-sm" id="theme-toggle-btn" title="切换主题">
+          <i data-lucide="moon"></i>
+          <span class="nav-action-text">主题</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main-content">
+
+    <!-- ========== 选题灵感库 ========== -->
+    <section id="ideas" class="tab-panel active">
+      <div class="panel-header">
+        <h2>选题灵感库</h2>
+        <p class="panel-desc">输入关键词，AI 帮你生成爆款标题方向</p>
+      </div>
+
+      <div class="card input-card">
+        <div class="input-row">
+          <input type="text" id="idea-keyword" placeholder="输入创作方向，如：大学生自律、减脂、校园穿搭..." />
+          <button class="btn-primary" id="generate-btn">
+            <i data-lucide="wand-2"></i>
+            生成标题
+          </button>
+        </div>
+        <div class="idea-tags" id="idea-tags"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>生成结果</h3>
+          <span class="badge" id="idea-count">0 条</span>
+        </div>
+        <div class="idea-list" id="idea-list">
+          <div class="empty-state">
+            <i data-lucide="lightbulb"></i>
+            <p>输入关键词，点击"生成标题"开始</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>历史记录</h3>
+          <button class="btn-ghost btn-sm" id="clear-history">清空</button>
+        </div>
+        <div class="history-list" id="history-list">
+          <div class="empty-state">
+            <p>暂无历史记录</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 内容日历 ========== -->
+    <section id="calendar" class="tab-panel">
+      <div class="panel-header">
+        <h2>内容日历</h2>
+        <p class="panel-desc">记录每篇笔记的数据，可视化你的成长曲线</p>
+      </div>
+
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3>成长折线图</h3>
+          <button class="btn-ghost btn-sm" id="add-note-btn">
+            <i data-lucide="plus"></i> 新增笔记
+          </button>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="growth-chart"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>笔记记录</h3>
+          <span class="badge" id="notes-count">0 篇</span>
+        </div>
+        <div class="table-wrapper">
+          <table class="notes-table" id="notes-table">
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>标题</th>
+                <th>曝光</th>
+                <th>点赞</th>
+                <th>收藏</th>
+                <th>涨粉</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="notes-tbody">
+              <tr class="empty-row">
+                <td colspan="7">
+                  <div class="empty-state">
+                    <i data-lucide="file-text"></i>
+                    <p>暂无记录，点击右上角"新增笔记"开始</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 竞品素材库 ========== -->
+    <section id="competitor" class="tab-panel">
+      <div class="panel-header">
+        <h2>竞品素材库</h2>
+        <p class="panel-desc">收藏研究爆款笔记，积累内容感觉</p>
+      </div>
+
+      <div class="card input-card">
+        <div class="input-row" style="margin-bottom:12px">
+          <input type="text" id="comp-search" placeholder="搜索：标题/标签/链接..." />
+        </div>
+        <div class="input-row">
+          <input type="url" id="comp-url" placeholder="粘贴小红书/抖音笔记链接..." />
+          <input type="text" id="comp-title" placeholder="笔记标题" />
+          <input type="text" id="comp-tag" placeholder="标签（如：情绪共鸣/实用干货/视觉冲击）" style="flex:1" />
+        </div>
+        <div class="input-row" style="margin-top:12px">
+          <input type="number" id="comp-like" placeholder="点赞" style="width:80px" />
+          <input type="number" id="comp-collect" placeholder="收藏" style="width:80px" />
+          <input type="number" id="comp-comment" placeholder="评论" style="width:80px" />
+          <button class="btn-primary" id="add-comp-btn">
+            <i data-lucide="plus"></i> 添加
+          </button>
+        </div>
+        <div class="filter-row" id="comp-filters"></div>
+      </div>
+
+      <div class="comp-grid" id="comp-grid">
+        <div class="empty-state">
+          <i data-lucide="library"></i>
+          <p>添加竞品笔记，开始积累素材</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 个人名片 ========== -->
+    <section id="profile" class="tab-panel">
+      <div class="panel-header">
+        <h2>个人名片</h2>
+        <p class="panel-desc">一键生成你的创作者数据卡，面试/社交直接展示</p>
+      </div>
+
+      <div class="profile-card-main card">
+        <div class="profile-avatar">H</div>
+        <div class="profile-info">
+          <h3 class="profile-name">何秋彦 <span class="profile-sub">Haley He</span></h3>
+          <p class="profile-bio">西安交通大学 · 网络与新媒体 · 大二</p>
+          <div class="profile-tags">
+            <span class="tag">内容运营</span>
+            <span class="tag">AIGC创作者</span>
+            <span class="tag">小红书KOC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card card">
+          <div class="stat-num" id="stat-fans">927</div>
+          <div class="stat-label">粉丝</div>
+          <div class="stat-trend up">即将突破千粉</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-num" id="stat-likes">8385</div>
+          <div class="stat-label">获赞与收藏</div>
+          <div class="stat-trend up">持续增长中</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-num" id="stat-peak">4.3万</div>
+          <div class="stat-label">单篇最高曝光</div>
+          <div class="stat-trend up">开学季爆款</div>
+        </div>
+        <div class="stat-card card">
+          <div class="stat-num" id="stat-growth">+94%</div>
+          <div class="stat-label">近30天曝光增长</div>
+          <div class="stat-trend up">环比增速</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>一键复制数据卡</h3>
+        </div>
+        <div class="profile-text-card" id="profile-text">
+          <pre>📱 小红书创作者数据卡
+━━━━━━━━━━━━━━━━━
+昵称：Haaley
+粉丝：927（即将突破千粉）
+获赞与收藏：8385+
+单篇最高曝光：4.3万+
+近30天曝光增长：+94%
+内容定位：大学生成长/校园生活
+平台：西安交通大学 · 网络与新媒体</pre>
+        </div>
+        <button class="btn-primary" id="copy-profile-btn" style="margin-top:16px">
+          <i data-lucide="copy"></i> 复制到剪贴板
+        </button>
+      </div>
+
+      <div class="card edit-card">
+        <div class="card-header">
+          <h3>编辑数据</h3>
+          <button class="btn-ghost btn-sm" id="edit-profile-btn">
+            <i data-lucide="pencil"></i> 编辑
+          </button>
+        </div>
+        <div class="edit-form" id="edit-form" style="display:none">
+          <div class="form-row">
+            <label>粉丝数</label><input type="number" id="edit-fans" value="927" />
+          </div>
+          <div class="form-row">
+            <label>获赞收藏</label><input type="number" id="edit-likes" value="8385" />
+          </div>
+          <div class="form-row">
+            <label>最高曝光</label><input type="text" id="edit-peak" value="4.3万" />
+          </div>
+          <div class="form-row">
+            <label>曝光增长</label><input type="text" id="edit-growth" value="+94%" />
+          </div>
+          <button class="btn-primary" id="save-profile-btn">保存</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 笔记弹窗 -->
+  <div class="modal" id="note-modal">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h3 id="modal-title">新增笔记</h3>
+        <button class="btn-ghost" id="close-modal-btn"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row"><label>日期</label><input type="date" id="note-date" /></div>
+        <div class="form-row"><label>标题</label><input type="text" id="note-title" placeholder="笔记标题" /></div>
+        <div class="form-row"><label>曝光</label><input type="number" id="note-impression" placeholder="曝光数" /></div>
+        <div class="form-row"><label>点赞</label><input type="number" id="note-like" placeholder="点赞数" /></div>
+        <div class="form-row"><label>收藏</label><input type="number" id="note-collect" placeholder="收藏数" /></div>
+        <div class="form-row"><label>涨粉</label><input type="number" id="note-follow" placeholder="新增粉丝" /></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="cancel-note-btn">取消</button>
+        <button class="btn-primary" id="save-note-btn">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-stack" id="toast-stack" aria-live="polite" aria-relevant="additions"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
